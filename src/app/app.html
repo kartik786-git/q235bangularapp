@@ -330,6 +330,29 @@
   </div>
 </main>
 
+<div class="app-container">
+  <nav class="navbar">
+    <div class="nav-brand">
+      <h1>InventoryPro</h1>
+    </div>
+    <ul class="nav-menu">
+      <li class="nav-item">
+        <a routerLink="/inventory" routerLinkActive="active" class="nav-link">Inventory</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/sales" routerLinkActive="active" class="nav-link">Sales</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/sales/new" class="btn btn-primary btn-sm">New Sale</a>
+      </li>
+    </ul>
+  </nav>
+
+  <main class="main-content">
+    <router-outlet />
+  </main>
+</div>
+
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * The content above * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * * -->
@@ -339,4 +362,4 @@
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
 
-<router-outlet />
+<!-- <router-outlet /> -->

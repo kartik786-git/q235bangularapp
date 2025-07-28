@@ -1,0 +1,182 @@
+<div class="form-container">
+  <div class="form-header">
+    <h1>{{ isEdit ? 'Edit Inventory Item' : 'Add New Inventory Item' }}</h1>
+    <p>Fill in the details below to {{ isEdit ? 'update' : 'add' }} an inventory item.</p>
+  </div>
+
+  <form [formGroup]="inventoryForm" (ngSubmit)="onSubmit()" class="inventory-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="name">Item Name *</label>
+        <input 
+          type="text" 
+          id="name" 
+          formControlName="name" 
+          class="form-control"
+          [class.invalid]="inventoryForm.get('name')?.invalid && inventoryForm.get('name')?.touched"
+        />
+        <div class="error-message" *ngIf="inventoryForm.get('name')?.invalid && inventoryForm.get('name')?.touched">
+          <span *ngIf="inventoryForm.get('name')?.errors?.['required']">Item name is required.</span>
+          <span *ngIf="inventoryForm.get('name')?.errors?.['minlength']">Item name must be at least 2 characters long.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="sku">SKU *</label>
+        <input 
+          type="text" 
+          id="sku" 
+          formControlName="sku" 
+          class="form-control"
+          [class.invalid]="inventoryForm.get('sku')?.invalid && inventoryForm.get('sku')?.touched"
+          placeholder="e.g. LT-2023-001"
+        />
+        <div class="error-message" *ngIf="inventoryForm.get('sku')?.invalid && inventoryForm.get('sku')?.touched">
+          <span *ngIf="inventoryForm.get('sku')?.errors?.['required']">SKU is required.</span>
+          <span *ngIf="inventoryForm.get('sku')?.errors?.['pattern']">SKU can only contain letters, numbers, and hyphens.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description *</label>
+      <textarea 
+        id="description" 
+        formControlName="description" 
+        class="form-control"
+        rows="3"
+        [class.invalid]="inventoryForm.get('description')?.invalid && inventoryForm.get('description')?.touched"
+      ></textarea>
+      <div class="error-message" *ngIf="inventoryForm.get('description')?.invalid && inventoryForm.get('description')?.touched">
+        <span *ngIf="inventoryForm.get('description')?.errors?.['required']">Description is required.</span>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="category">Category *</label>
+        <select 
+          id="category" 
+          formControlName="category" 
+          class="form-control"
+          [class.invalid]="inventoryForm.get('category')?.invalid && inventoryForm.get('category')?.touched"
+        >
+          <option value="">Select a category</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Furniture">Furniture</option>
+          <option value="Clothing">Clothing</option>
+          <option value="Office Supplies">Office Supplies</option>
+          <option value="Food & Beverage">Food & Beverage</option>
+          <option value="Other">Other</option>
+        </select>
+        <div class="error-message" *ngIf="inventoryForm.get('category')?.invalid && inventoryForm.get('category')?.touched">
+          <span *ngIf="inventoryForm.get('category')?.errors?.['required']">Category is required.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="supplier">Supplier *</label>
+        <input 
+          type="text" 
+          id="supplier" 
+          formControlName="supplier" 
+          class="form-control"
+          [class.invalid]="inventoryForm.get('supplier')?.invalid && inventoryForm.get('supplier')?.touched"
+        />
+        <div class="error-message" *ngIf="inventoryForm.get('supplier')?.invalid && inventoryForm.get('supplier')?.touched">
+          <span *ngIf="inventoryForm.get('supplier')?.errors?.['required']">Supplier is required.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="price">Price * ($)</label>
+        <input 
+          type="number" 
+          id="price" 
+          formControlName="price" 
+          class="form-control"
+          [class.invalid]="inventoryForm.get('price')?.invalid && inventoryForm.get('price')?.touched"
+          step="0.01"
+          min="0.01"
+        />
+        <div class="error-message" *ngIf="inventoryForm.get('price')?.invalid && inventoryForm.get('price')?.touched">
+          <span *ngIf="inventoryForm.get('price')?.errors?.['required']">Price is required.</span>
+          <span *ngIf="inventoryForm.get('price')?.errors?.['min']">Price must be greater than $0.00.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="cost">Cost ($)</label>
+        <input 
+          type="number" 
+          id="cost" 
+          formControlName="cost" 
+          class="form-control"
+          [class.invalid]="inventoryForm.get('cost')?.invalid && inventoryForm.get('cost')?.touched"
+          step="0.01"
+          min="0"
+        />
+        <div class="error-message" *ngIf="inventoryForm.get('cost')?.invalid && inventoryForm.get('cost')?.touched">
+          <span *ngIf="inventoryForm.get('cost')?.errors?.['required']">Cost is required.</span>
+          <span *ngIf="inventoryForm.get('cost')?.errors?.['min']">Cost cannot be negative.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="quantity">Quantity *</label>
+        <input 
+          type="number" 
+          id="quantity" 
+          formControlName="quantity" 
+          class="form-control"
+          [class.invalid]="inventoryForm.get('quantity')?.invalid && inventoryForm.get('quantity')?.touched"
+          min="0"
+        />
+        <div class="error-message" *ngIf="inventoryForm.get('quantity')?.invalid && inventoryForm.get('quantity')?.touched">
+          <span *ngIf="inventoryForm.get('quantity')?.errors?.['required']">Quantity is required.</span>
+          <span *ngIf="inventoryForm.get('quantity')?.errors?.['min']">Quantity cannot be negative.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="minStockLevel">Minimum Stock Level *</label>
+        <input 
+          type="number" 
+          id="minStockLevel" 
+          formControlName="minStockLevel" 
+          class="form-control"
+          [class.invalid]="inventoryForm.get('minStockLevel')?.invalid && inventoryForm.get('minStockLevel')?.touched"
+          min="0"
+        />
+        <div class="error-message" *ngIf="inventoryForm.get('minStockLevel')?.invalid && inventoryForm.get('minStockLevel')?.touched">
+          <span *ngIf="inventoryForm.get('minStockLevel')?.errors?.['required']">Minimum stock level is required.</span>
+          <span *ngIf="inventoryForm.get('minStockLevel')?.errors?.['min']">Minimum stock level cannot be negative.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="imageUrl">Image URL</label>
+      <input 
+        type="url" 
+        id="imageUrl" 
+        formControlName="imageUrl" 
+        class="form-control"
+        placeholder="https://example.com/image.jpg"
+      />
+    </div>
+
+    <div class="form-actions">
+      <button type="button" (click)="onCancel()" class="btn btn-secondary">
+        Cancel
+      </button>
+      <button type="submit" [disabled]="inventoryForm.invalid" class="btn btn-primary">
+        {{ isEdit ? 'Update Item' : 'Add Item' }}
+      </button>
+    </div>
+  </form>
+</div>

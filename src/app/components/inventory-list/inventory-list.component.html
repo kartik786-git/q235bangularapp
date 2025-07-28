@@ -1,0 +1,98 @@
+<div class="inventory-container">
+  <div class="header">
+    <h1>Inventory Management</h1>
+    <div class="header-actions">
+      <button routerLink="/inventory/add" class="btn btn-primary">
+        <span>Add New Item</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <h3>Total Items</h3>
+      <p class="stat-value">{{ totalItems }}</p>
+    </div>
+    <div class="stat-card">
+      <h3>Total Value</h3>
+      <p class="stat-value">${{ totalValue | number:'1.2-2' }}</p>
+    </div>
+    <div class="stat-card low-stock" *ngIf="lowStockItems.length > 0">
+      <h3>Low Stock</h3>
+      <p class="stat-value">{{ lowStockItems.length }}</p>
+    </div>
+  </div>
+
+  <div class="search-filter">
+    <div class="search-box">
+      <input 
+        type="text" 
+        placeholder="Search items..." 
+        [(ngModel)]="searchTerm"
+        (input)="filterItems()"
+      />
+      <span class="search-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+        </svg>
+      </span>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table class="inventory-table">
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Name & SKU</th>
+          <th>Category</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of filteredItems" [class.low-stock]="item.quantity <= item.minStockLevel">
+          <td>
+            <div class="item-image">
+              <img [src]="item.imageUrl || 'https://via.placeholder.com/50x50?text=No+Image'" [alt]="item.name" />
+            </div>
+          </td>
+          <td>
+            <div class="item-info">
+              <h4>{{ item.name }}</h4>
+              <span class="sku">SKU: {{ item.sku }}</span>
+            </div>
+          </td>
+          <td>{{ item.category }}</td>
+          <td>${{ item.price | number:'1.2-2' }}</td>
+          <td>
+            <span [class.low-stock-badge]="item.quantity <= item.minStockLevel">
+              {{ item.quantity }}
+            </span>
+          </td>
+          <td>
+            <span class="status" [class.low-stock]="item.quantity <= item.minStockLevel">
+              {{ item.quantity <= item.minStockLevel ? 'Low Stock' : 'In Stock' }}
+            </span>
+          </td>
+          <td>
+            <div class="actions">
+              <button [routerLink]="['/inventory/edit', item.id]" class="btn btn-sm btn-outline">
+                Edit
+              </button>
+              <button (click)="deleteItem(item.id)" class="btn btn-sm btn-danger">
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <div class="no-results" *ngIf="filteredItems.length === 0">
+      <p>No items found matching your search.</p>
+    </div>
+  </div>
+</div>
